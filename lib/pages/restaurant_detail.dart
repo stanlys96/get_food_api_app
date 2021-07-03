@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../data/model/restaurant.dart';
 import '../data/api/api_service.dart';
 import 'package:provider/provider.dart';
+import '../components/menu.dart';
+import '../components/secondary_heading.dart';
 
 class RestaurantDetail extends StatefulWidget {
   @override
@@ -150,6 +152,58 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                                 },
                               ),
                             ),
+                            SizedBox(height: 10.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SecondaryHeading(
+                                  text: 'REVIEWS',
+                                ),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    width: 30.0,
+                                    height: 30.0,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(50.0),
+                                    ),
+                                    child: Icon(Icons.add),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 250.0,
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: restaurant.customerReviews?.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          restaurant
+                                              .customerReviews![index].name,
+                                        ),
+                                        Text(
+                                          restaurant
+                                              .customerReviews![index].review,
+                                        ),
+                                        Text(
+                                          restaurant
+                                              .customerReviews![index].date,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -165,71 +219,6 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
               return Center(child: Text(''));
             }
           },
-        ),
-      ),
-    );
-  }
-}
-
-class SecondaryHeading extends StatelessWidget {
-  String text;
-  SecondaryHeading({required this.text});
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: 20.0,
-        color: Colors.blueAccent,
-      ),
-    );
-  }
-}
-
-class Menu extends StatelessWidget {
-  String name;
-  String pictureId;
-  Menu({required this.name, required this.pictureId});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 15.0),
-      child: Container(
-        width: 150.0,
-        padding: EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.network(
-              'https://restaurant-api.dicoding.dev/images/medium/$pictureId',
-              width: 120.0,
-              height: 90.0,
-            ),
-            FittedBox(
-              fit: BoxFit.fill,
-              child: Text(
-                name,
-                style: TextStyle(
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              'IDR 15.000,00',
-              style: TextStyle(
-                color: Colors.teal,
-              ),
-            ),
-          ],
         ),
       ),
     );

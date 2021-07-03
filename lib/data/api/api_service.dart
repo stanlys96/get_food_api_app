@@ -32,4 +32,18 @@ class ApiService {
       throw Exception('Failed to load restaurants list');
     }
   }
+
+  Future<http.Response> addReview(String name, String title, String id) async {
+    return await http.post(
+        (Uri.parse('https://restaurant-api.dicoding.dev/review')),
+        headers: <String, String>{
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-Auth-Token': '12345'
+        },
+        body: {
+          "id": id,
+          "name": name,
+          "title": title,
+        });
+  }
 }

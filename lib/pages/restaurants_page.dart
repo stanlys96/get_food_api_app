@@ -86,8 +86,19 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                   builder: (context, state, _) {
                     if (state.state == ResultState.Loading) {
                       return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.teal,
+                        child: Column(
+                          children: [
+                            CircularProgressIndicator(
+                              color: Colors.teal,
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Text(
+                              'Loading restaurants for you.\nPlease wait...',
+                              textAlign: TextAlign.center,
+                            )
+                          ],
                         ),
                       );
                     } else if (state.state == ResultState.HasData) {
