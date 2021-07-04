@@ -28,12 +28,18 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                'GetFood',
-                style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.w300,
-                ),
+              Row(
+                children: [
+                  Text(
+                    'GetFood',
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(width: 5.0),
+                  Icon(Icons.local_restaurant)
+                ],
               ),
               SizedBox(
                 height: 10.0,
