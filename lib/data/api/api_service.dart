@@ -21,9 +21,10 @@ class ApiService {
         throw Exception('Failed to load restaurants list');
       }
     } on TimeoutException catch (e) {
-      throw Exception('Timeout error. Check your internet connection');
+      throw Exception('Timeout error. Please check your internet connection');
     } on SocketException catch (e) {
-      throw Exception('Socket Error: $e');
+      throw Exception(
+          'Socket Error: Please check that you have internet permission to your app.');
     } on Error catch (e) {
       throw Exception('General Error: $e');
     }
@@ -43,7 +44,8 @@ class ApiService {
     } on TimeoutException catch (e) {
       throw Exception('Timeout error. Check your internet connection');
     } on SocketException catch (e) {
-      throw Exception('Socket Error: $e');
+      throw Exception(
+          'Socket Error: Please check that you have internet permission to your app.');
     } on Error catch (e) {
       throw Exception('General Error: $e');
     }
@@ -63,7 +65,8 @@ class ApiService {
     } on TimeoutException catch (e) {
       throw Exception('Timeout error. Check your internet connection');
     } on SocketException catch (e) {
-      throw Exception('Socket Error: $e');
+      throw Exception(
+          'Socket Error: Please check that you have internet permission to your app.');
     } on Error catch (e) {
       throw Exception('General Error: $e');
     }

@@ -119,9 +119,17 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                         },
                       );
                     } else if (state.state == ResultState.NoData) {
-                      return Center(child: Text(state.message));
+                      return Center(
+                          child: Text(
+                        state.message,
+                        textAlign: TextAlign.center,
+                      ));
                     } else if (state.state == ResultState.Error) {
-                      return Center(child: Text(state.message));
+                      return Center(
+                          child: Text(
+                        state.message,
+                        textAlign: TextAlign.center,
+                      ));
                     } else {
                       return Center(child: Text(''));
                     }

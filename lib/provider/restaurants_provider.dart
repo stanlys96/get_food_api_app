@@ -39,7 +39,7 @@ class RestaurantsProvider extends ChangeNotifier {
     } catch (e) {
       _state = ResultState.Error;
       notifyListeners();
-      return _message = 'Error --> $e';
+      return _message = '$e';
     }
   }
 
@@ -60,7 +60,7 @@ class RestaurantsProvider extends ChangeNotifier {
     } catch (e) {
       _state = ResultState.Error;
       notifyListeners();
-      return _message = 'Error --> $e';
+      return _message = '$e';
     }
   }
 }
@@ -100,7 +100,7 @@ class RestaurantDetailProvider extends ChangeNotifier {
     } catch (e) {
       _state = ResultState.Error;
       notifyListeners();
-      return _message = 'Error --> $e';
+      return _message = '$e';
     }
   }
 }
