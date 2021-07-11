@@ -46,7 +46,7 @@ class Restaurant {
     required this.rating,
   });
 
-  factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
+  factory Restaurant.fromJson(json) => Restaurant(
         id: json['id'],
         name: json['name'],
         description: json['description'],

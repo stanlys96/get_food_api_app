@@ -29,16 +29,34 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'GetFood',
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        'GetFood',
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(width: 5.0),
+                      Icon(Icons.local_restaurant)
+                    ],
                   ),
-                  SizedBox(width: 5.0),
-                  Icon(Icons.local_restaurant)
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.amberAccent,
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                    child: IconButton(
+                      color: Colors.red,
+                      icon: Icon(Icons.favorite),
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'favorites_page');
+                      },
+                    ),
+                  )
                 ],
               ),
               SizedBox(

@@ -1,11 +1,34 @@
-import 'package:dicoding_mengengah_1/data/model/restaurant_detail.dart';
 import 'package:dicoding_mengengah_1/provider/restaurants_provider.dart';
 import 'package:flutter/material.dart';
-import '../data/model/restaurant.dart';
-import '../data/api/api_service.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components/menu.dart';
 import '../components/secondary_heading.dart';
+
+Widget okButton(context, color) => ElevatedButton(
+      style: ElevatedButton.styleFrom(primary: color),
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+// set up the AlertDialog
+AlertDialog alert(context) => AlertDialog(
+      title: Text("Success!"),
+      content: Text("Successfully added to favorites!"),
+      actions: [
+        okButton(context, Colors.blue),
+      ],
+    );
+
+AlertDialog error(context) => AlertDialog(
+      title: Text("Error!"),
+      content: Text("This restaurant is already added to favorites!"),
+      actions: [
+        okButton(context, Colors.red),
+      ],
+    );
 
 class RestaurantDetail extends StatefulWidget {
   @override
@@ -13,6 +36,7 @@ class RestaurantDetail extends StatefulWidget {
 }
 
 class _RestaurantDetailState extends State<RestaurantDetail> {
+  var _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -63,19 +87,80 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                 body: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6.0),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(25.0),
-                          bottomRight: Radius.circular(25.0),
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 6.0),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(20.0),
+                              bottomRight: Radius.circular(20.0),
+                            ),
+                            child: Hero(
+                              tag: restaurant!.pictureId,
+                              child: Image.network(
+                                  'https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}'),
+                            ),
+                          ),
                         ),
-                        child: Hero(
-                          tag: restaurant!.pictureId,
-                          child: Image.network(
-                              'https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}'),
-                        ),
-                      ),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(50.0),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    var found = false;
+                                    var favorites_query =
+                                        _firestore.collection('favorites');
+                                    favorites_query.get().then((value) {
+                                      value.docs.forEach((element) {
+                                        if (element['name'] ==
+                                            restaurant.name) {
+                                          found = true;
+                                        }
+                                      });
+                                      if (!found) {
+                                        _firestore.collection('favorites').add({
+                                          'id': restaurant.id,
+                                          'name': restaurant.name,
+                                          'pictureId': restaurant.pictureId,
+                                          'description': restaurant.description,
+                                          'city': restaurant.city,
+                                          'rating': restaurant.rating,
+                                          'dateCreated': Timestamp.now(),
+                                        });
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return alert(context);
+                                          },
+                                        );
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return error(context);
+                                          },
+                                        );
+                                      }
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                     Expanded(
                       child: Container(
