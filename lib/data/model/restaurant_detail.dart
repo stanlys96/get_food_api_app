@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class RestaurantDetailResult {
   RestaurantDetailResult({
     required this.error,

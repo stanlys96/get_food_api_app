@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/restaurant_detail.dart';
 import '../data/model/restaurant.dart';
-import '../data/api/api_service.dart';
-import 'package:provider/provider.dart';
-import '../provider/restaurants_provider.dart';
 
 class RestaurantCard extends StatelessWidget {
   Restaurant restaurant;

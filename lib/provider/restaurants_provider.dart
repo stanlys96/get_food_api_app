@@ -43,6 +43,27 @@ class RestaurantsProvider extends ChangeNotifier {
     }
   }
 
+  Future<dynamic> getRestaurants() async {
+    try {
+      _state = ResultState.Loading;
+      notifyListeners();
+      final restaurants = await apiService.getRestaurants();
+      if (restaurants.restaurants!.isEmpty) {
+        _state = ResultState.NoData;
+        notifyListeners();
+        return _message = 'Empty Data';
+      } else {
+        _state = ResultState.HasData;
+        notifyListeners();
+        return _restaurantsResult = restaurants;
+      }
+    } catch (e) {
+      _state = ResultState.Error;
+      notifyListeners();
+      return _message = '$e';
+    }
+  }
+
   Future<dynamic> fetchRestaurantsResult(String query) async {
     try {
       _state = ResultState.Loading;
