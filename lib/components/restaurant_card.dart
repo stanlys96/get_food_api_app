@@ -15,12 +15,8 @@ class RestaurantCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {
-            return ChangeNotifierProvider<RestaurantDetailProvider>(
-              create: (_) => RestaurantDetailProvider(
-                apiService: ApiService(),
-                id: restaurant.id,
-              ),
-              child: RestaurantDetail(),
+            return RestaurantDetail(
+              id: restaurant.id,
             );
           }),
         );

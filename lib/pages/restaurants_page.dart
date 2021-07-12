@@ -1,10 +1,18 @@
 import 'package:dicoding_mengengah_1/provider/restaurants_provider.dart';
+import 'package:dicoding_mengengah_1/provider/scheduling_provider.dart';
 import 'package:flutter/material.dart';
-import '../data/model/restaurant.dart';
-import '../data/api/api_service.dart';
-import './restaurant_detail.dart';
-import '../components/restaurant_card.dart';
 import 'package:provider/provider.dart';
+import 'package:android_alarm_manager/android_alarm_manager.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import '../components/restaurant_card.dart';
+import '../utils/notification_helper.dart';
+import './favorites.dart';
+import '../utils/background_service.dart';
+import '../pages/restaurant_detail.dart';
+import '../pages/settings_page.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class RestaurantsPage extends StatefulWidget {
   static const routeName = 'restaurant_page';
@@ -13,6 +21,26 @@ class RestaurantsPage extends StatefulWidget {
 }
 
 class _RestaurantsPageState extends State<RestaurantsPage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+  final BackgroundService _service = BackgroundService();
+
+  @override
+  void initState() {
+    super.initState();
+    port.listen((_) async => await _service.someTask());
+    _notificationHelper.configureSelectNotificationSubject(
+        context, RestaurantDetail.routeName);
+    _notificationHelper.configureDidReceiveLocalNotificationSubject(
+        context, RestaurantDetail.routeName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    didReceiveLocalNotificationSubject.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,18 +72,45 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                       Icon(Icons.local_restaurant)
                     ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.amberAccent,
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                    child: IconButton(
-                      color: Colors.red,
-                      icon: Icon(Icons.favorite),
-                      onPressed: () {
-                        Navigator.pushNamed(context, 'favorites_page');
-                      },
-                    ),
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.amberAccent,
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        child: IconButton(
+                          color: Colors.black,
+                          icon: Icon(Icons.settings),
+                          onPressed: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ChangeNotifierProvider<SchedulingProvider>(
+                                  create: (_) => SchedulingProvider(),
+                                  child: SettingsPage(),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 17.0),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.amberAccent,
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        child: IconButton(
+                          color: Colors.red,
+                          icon: Icon(Icons.favorite),
+                          onPressed: () async {
+                            Navigator.pushNamed(context, 'favorites_page');
+                          },
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">758757526676-etiml3scrqo53kdk3nv8tes11kdm1r2e.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">758757526676</string>
+    <string name="google_api_key" translatable="false">AIzaSyD5wHA27TMz-oOoEW9kcjWSZXp-0Dwebaw</string>
+    <string name="google_app_id" translatable="false">1:758757526676:android:6cc437d3b08fabc2cc3881</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyD5wHA27TMz-oOoEW9kcjWSZXp-0Dwebaw</string>
+    <string name="google_storage_bucket" translatable="false">flutter-good-food.appspot.com</string>
+    <string name="project_id" translatable="false">flutter-good-food</string>
+</resources>

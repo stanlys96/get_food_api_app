@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components/menu.dart';
 import '../components/secondary_heading.dart';
+import '../provider/restaurants_provider.dart';
+import '../data/api/api_service.dart';
 
 Widget okButton(context, color) => ElevatedButton(
       style: ElevatedButton.styleFrom(primary: color),
@@ -31,14 +33,28 @@ AlertDialog error(context) => AlertDialog(
     );
 
 class RestaurantDetail extends StatefulWidget {
+  var id;
+  RestaurantDetail({required this.id});
+  static var routeName = 'detail';
   @override
   _RestaurantDetailState createState() => _RestaurantDetailState();
 }
 
 class _RestaurantDetailState extends State<RestaurantDetail> {
   var _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) =>
+          RestaurantDetailProvider(apiService: ApiService(), id: widget.id),
+      child: Scaffold(
+        body: _buildItem(context),
+      ),
+    );
+  }
+
+  Widget _buildItem(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromRGBO(255, 240, 225, 1),
